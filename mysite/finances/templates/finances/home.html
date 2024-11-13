@@ -1,0 +1,125 @@
+{% extends 'finances/base.html' %}
+<body>
+    <div class="container">
+        {% block body %}
+        <h1 class="text-center mt-5">Welcome, {{ user.first_name }} {{ user.last_name }}!</h1>
+        <div class="row mt-4">
+            {% comment %} current month graph {% endcomment %}
+            <div class="col-md-6">
+                <h2 class="text-center mt-1">Current Month</h2>
+                <h3 class="text-center mt-1">Income ${{ current_month_income }} - Expenses ${{ current_month_expenses }} = 
+                    {% if current_month_balance > 0 %} + ${{ current_month_balance }} 
+                    {% elif current_month_balance == 0 %} ${{ current_month_balance}}
+                    {% else %} - ${{ current_month_balance }} 
+                    {% endif %}
+                <canvas id="currentMonthChart"></canvas>
+            </div>
+
+            {% comment %} annual graph {% endcomment %}
+            <div class="col-md-6">
+                <h2 class="text-center mt-1">Annual Overview</h2>
+                <h3 class="text-center mt-1">Income ${{ annual_income }} - Expenses ${{ annual_expense }} = 
+                    {% if annual_balance > 0 %} + ${{ annual_balance }}
+                    {% elif annual_balance == 0 %} ${{ annual_balance }}
+                    {% else %} - ${{ annual_balance }}
+                    {% endif %}
+                <canvas id="annualChart"></canvas>
+            </div>
+        </div>
+        {% endblock %}
+    </div>
+
+    {% block extra_js %}
+    <script>
+        const currentMonthCtx = document.getElementById('currentMonthChart').getContext('2d');
+        const currentMonthData = {
+            labels: {{ current_month_labels|safe }},
+            datasets: {{ current_month_datasets|safe }}
+        };
+        const currentMonthChart = new Chart(currentMonthCtx, {
+            type: 'bar',
+            data: currentMonthData,
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        stacked: true,
+                        ticks: {
+                            color: 'white',
+                        },
+                        grid: {
+                            color: 'white',
+                        }
+                    },
+                    y: {
+                        stacked: true,
+                        beginAtZero: true,
+                        ticks: {
+                            color: 'white',
+                        },
+                        grid: {
+                            color: 'white',
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white',
+                        }
+                    },
+                    tooltip: {
+                        bodyColor: 'white',
+                        titleColor: 'white',
+                    }
+                }
+            }
+        });
+
+        const annualCtx = document.getElementById('annualChart').getContext('2d');
+        const annualData = {
+            labels: {{ annual_labels|safe }},
+            datasets: {{ annual_datasets|safe }}
+        };
+        const annualChart = new Chart(annualCtx, {
+            type: 'bar',
+            data: annualData,
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        stacked: true,
+                        ticks: {
+                            color: 'white',
+                        },
+                        grid: {
+                            color: 'white',
+                        }
+                    },
+                    y: {
+                        stacked: true,
+                        beginAtZero: true,
+                        ticks: {
+                            color: 'white',
+                        },
+                        grid: {
+                            color: 'white',
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white',
+                        }
+                    },
+                    tooltip: {
+                        bodyColor: 'white',
+                        titleColor: 'white',
+                    }
+                }
+            }
+        });
+    </script>
+    {% endblock %}
+</body>

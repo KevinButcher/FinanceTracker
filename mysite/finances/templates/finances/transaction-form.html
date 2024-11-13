@@ -1,0 +1,38 @@
+{% extends 'finances/base.html' %}
+{% block body %}
+<form method="POST">
+    {% csrf_token %}
+    <div class="row">
+        {% for field in form %}
+            <div class="form-group col-md-6 m-4">
+                {% comment %}  field.id_for_label generates the field's id and field.label renders the label text {% endcomment %}
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {% comment %} checks if current field is category or month and renders a dropdown if true {% endcomment %}
+                {% if field.name == 'category' or field.name == 'month' %}
+                    {% comment %} field.name sets the name attribute needed to identify {% endcomment %}
+                    <select name="{{ field.name }}" id="{{ field.id_for_label}}" class="form-control">
+                    {% for choice_value, choice_label in field.field.choices %}
+                        <option value="{{ choice_value }}" {% if field.value == choice_value %}selected{% endif %}>
+                            {{ choice_label }}
+                        </option>
+                    {% endfor %}
+                    </select>
+                {% else %}
+                    {% comment %} if field is not category or month it renders input fields {% endcomment %}
+                    {% comment %} field.field.widget.type determines the input type (text, number, etc.) {% endcomment %}
+                    <input type="{{ field.field.widget.type }}"
+                    name="{{ field.name }}"
+                    id="{{ field.id_for_label }}"
+                    value="{{ field.value|default_if_none:'' }}"
+                    class="form-control"
+                    {% comment %} adds required if the field is mandatory {% endcomment %}
+                    {% if field.field.required %}required{% endif %}/>
+                {% endif%}
+            </div>
+        {% endfor %}
+    </div>
+    {% comment %} {{ form }} {% endcomment %}
+    <button type="submit" class="btn btn-primary m-4">Save</button>
+</form>
+{% endblock %}
+{% comment %} category, month, amount, description {% endcomment %}
