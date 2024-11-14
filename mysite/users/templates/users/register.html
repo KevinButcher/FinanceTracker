@@ -7,12 +7,22 @@
         {% for field in form %}
             <div class="form-group col-md-6 m-4">
                 <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                <input type="{{ field.field.widget.type }}"
+                <input type="{% if field.name == 'password1' or field.name == 'password2' %}password{% else %}{{ field.field.widget.input_type }}{% endif %}"
                 name="{{ field.name }}"
                 id="{{ field.id_for_label }}"
                 value="{{ field.value|default_if_none:'' }}"
                 class="form-control"
                 {% if field.field.required %}required{% endif %}/>
+
+            {% comment %} This area takes the errors generated from django's built in register fields 
+            and displays them under the relevant inputs when generated {% endcomment %}
+            {% if field.errors %}
+                <ul class="errorlist">
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
             </div>
         {% endfor %}
     </div>

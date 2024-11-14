@@ -17,6 +17,7 @@
                 <a href="{% url 'finances:view_transaction' %}" class="nav-item nav-link text-warning">View Transactions</a>
                 <a href="{% url 'profile' %}" class="nav-item nav-link text-warning">Profile</a>
                 <a href="{% url 'logout' %}" class="nav-item nav-link text-warning">Logout</a>
+                <img src="{{ user.profile.image.url }}" class="img-fluid rounded-circle" style="width: 75px; height: 75px; object-fit: cover;"/>
             {% else %}
                 <a href="{% url 'login' %}" class="nav-item nav-link text-warning">Login</a>
                 <a href="{% url 'register' %}" class="nav-item nav-link text-warning">Register</a>

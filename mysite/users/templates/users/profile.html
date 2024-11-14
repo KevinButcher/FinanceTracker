@@ -1,5 +1,13 @@
 {% extends 'finances/base.html' %}
 {% block body %}
-<h1>{{ user.username }}</h1>
-<img src="{{ user.profile.image.url }}" width="250px"/>
+<div class="container">
+    <div class="row">
+        <div class="d-flex justify-content-center col-5">
+            <h1>{{ user.username }}</h1>
+        </div>
+        <div class="row d-flex justify-content-center col-5">
+            <img src="{{ user.profile.image.url }}" class="img-fluid rounded-circle" style="width: 75px; height: 75px; object-fit: cover;"/>
+        </div>
+    </div>
+</div>
 {% endblock %}
