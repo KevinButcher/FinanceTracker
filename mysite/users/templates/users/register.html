@@ -2,8 +2,10 @@
 {% block body %}
 <form method="POST">
     {% csrf_token %}
-    {% comment %} {{ form }} {% endcomment %}
-    <div class="row">
+    {% comment %} nifty! the .as_p can wrap each field in a <p> tag!
+    {{ form.as_ul }} 
+    {{ form }} {% endcomment %}
+     <div class="row">
         {% for field in form %}
             <div class="form-group col-md-6 m-4">
                 <label for="{{ field.id_for_label }}">{{ field.label }}</label>
@@ -14,8 +16,8 @@
                 class="form-control"
                 {% if field.field.required %}required{% endif %}/>
 
-            {% comment %} This area takes the errors generated from django's built in register fields 
-            and displays them under the relevant inputs when generated {% endcomment %}
+             {% comment %} This area takes the errors generated from django's built in register fields 
+            and displays them under the relevant inputs when generated  {% endcomment %}
             {% if field.errors %}
                 <ul class="errorlist">
                     {% for error in field.errors %}
@@ -26,6 +28,6 @@
             </div>
         {% endfor %}
     </div>
-    <button type="submit" class='m-4'>Signup</button>
+    <button type="submit" class='btn btn-primary m-4'>Signup</button>
 </form>
 {% endblock %}

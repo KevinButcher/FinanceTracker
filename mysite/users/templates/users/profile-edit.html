@@ -1,0 +1,12 @@
+{% extends 'finances/base.html' %}
+{% block body %}
+<div class="container">
+    <h1>Edit Profile</h2>
+        {% comment %} enctype="multipart/form-data" is needed to upload file {% endcomment %}
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
+{% endblock %}

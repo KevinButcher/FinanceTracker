@@ -2,11 +2,15 @@
 {% block body %}
 <div class="container">
     <div class="row">
-        <div class="d-flex justify-content-center col-5">
-            <h1>{{ user.username }}</h1>
-        </div>
-        <div class="row d-flex justify-content-center col-5">
+        <div class="d-flex justify-content-end col-md-4">
             <img src="{{ user.profile.image.url }}" class="img-fluid rounded-circle" style="width: 75px; height: 75px; object-fit: cover;"/>
+        </div>
+        <div class="col-md-8">
+            <h1>Username: {{ user.username }}</h1>
+            <h2>Name: {{ user.first_name }} {{user.last_name }}</h2>
+            <h2>Email: {{ user.email }}</h2>
+            <h3>Location: {{ user.profile.location }}</h3>
+            <a href="{% url 'update_profile' %}">Update</a>
         </div>
     </div>
 </div>

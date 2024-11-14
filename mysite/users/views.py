@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from .forms import RegistrationForm
+from .models import Profile
+from .forms import RegistrationForm, ProfileForm
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -21,3 +22,27 @@ def register(request):
 @login_required
 def profile(request):
     return render(request, 'users/profile.html')
+
+@login_required
+def update_profile(request):
+    # request.FILES is used to handle uploaded files (images, pdf, etc.)
+    prof = request.user.profile
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=prof)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        # prepopulate the form with existing data (wasn't working without it)
+        form = ProfileForm(instance=prof)
+    
+    return render(request, 'users/profile-edit.html', {'form': form})
+
+# SuperUser:
+#   User: CodySquadroni
+#   Password: YouRock!
+
+# normal user:
+#   newuser
+#   Password123*
